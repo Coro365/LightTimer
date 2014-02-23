@@ -2,36 +2,35 @@
 
 //pinNo
 #define SERVOPIN	9
-#define LED 		13
-#define BUTTON      8
+#define LED			13
+#define BUTTON		8
 
 //servo angle
-#define ON      	130
-#define DEFO    	100
-#define OFF     	70
+#define ON			130
+#define DEFO		100
+#define OFF			70
 
 //millisec
-#define HOUR    	3600000
-#define MINUTE  	60000
-#define SEC     	1000
+#define HOUR		3600000
+#define MINUTE		60000
+#define SEC			1000
 
 
 Servo g_servo;
 
 
-
-void setup() { 
+void setup() {
 	Serial.begin(9600);
 	pinMode(LED, OUTPUT);
 	g_servo.attach(SERVOPIN);
 	Serial.print("setup OK!\n");
-} 
+}
 
 
 void loop() { 
 	//set val
 	static unsigned long time = 0;
-    static unsigned long myTime = 0;
+	static unsigned long myTime = 0;
 	static int i = 1;
 	static int loopCount = 1;
 
@@ -56,7 +55,6 @@ void loop() {
 		on();
 		i++;
 	}
-
 	
 	loopCount++;
 	delay(1000);
@@ -66,6 +64,7 @@ void loop() {
 
 
 int setTime(){
+
 	//set val
 	int buttonCount = 0;
 	long loopCount = 0;
@@ -74,59 +73,51 @@ int setTime(){
 
 	//15sec loop
 	while(1){
-		int bottonStatus = digitalRead(BUTTON);  
+		int bottonStatus = digitalRead(BUTTON);
 		delay(50);
 
-
 		if(lastButtonStatus == LOW && bottonStatus == HIGH){
-		    buttonCount++;
+			buttonCount++;
 
-		    digitalWrite(LED, HIGH); 
+			digitalWrite(LED, HIGH); 
 			delay(30);
 			digitalWrite(LED, LOW);
 
 			Serial.print("\nbuttonCount ");
-	        Serial.print(buttonCount);
-	        Serial.print("\n");
+			Serial.print(buttonCount);
+			Serial.print("\n");
 		}
 
-
-
 		if(loopCount >= 300){	//15秒たったら
-		    disp_count(buttonCount);
-		    loopCount = 0;
-	        Serial.print("Now 15 Sec\n");
-	        break;
+			disp_count(buttonCount);
+			loopCount = 0;
+			Serial.print("Now 15 Sec\n");
+			break;
 		}
 
 		lastButtonStatus = bottonStatus;
 		loopCount++;
 	}
-	
 
 	return buttonCount;
-
-
-
-
 }
 
 
 void disp_count(int buttonCount){
-    Serial.print("disp_count\n");
+	Serial.print("disp_count\n");
 	led_flash(buttonCount);
 }
 
 //number回LEDを点滅
 void led_flash(int number){
-    Serial.print("number\n");
-    Serial.print(number);
-    Serial.print("\n");
+	Serial.print("number\n");
+	Serial.print(number);
+	Serial.print("\n");
 
-    alert2(); //myTime表示開始アラート
+	alert2(); //myTime表示開始アラート
 
 	for(int i=1; i<=number; i++){
-	    digitalWrite(LED, HIGH); 
+		digitalWrite(LED, HIGH); 
 		delay(500);
 		digitalWrite(LED, LOW);
 		delay(500);
@@ -148,7 +139,6 @@ void on(){
 	} 
 	delay(1000);
 	g_servo.write(DEFO);
-	Serial.print("on! end\n");
 }
 
 void off(){
@@ -171,22 +161,22 @@ void alert1(){
 	Serial.print("alert1\n");
 	delay(1000);
 	for(int i=1; i<=5; i++){
-	    digitalWrite(LED, HIGH); 
-	    delay(100);
-	    digitalWrite(LED, LOW);
-	    delay(100);
+		digitalWrite(LED, HIGH); 
+		delay(100);
+		digitalWrite(LED, LOW);
+		delay(100);
 	}
-  delay(1000);
+	delay(1000);
 }
 
 void alert2(){
 	Serial.print("alert2\n");
 	delay(1000);
 	for(int i=1; i<=5; i++){
-	    digitalWrite(LED, HIGH); 
-	    delay(50);
-	    digitalWrite(LED, LOW);
-	    delay(50);
+		digitalWrite(LED, HIGH); 
+		delay(50);
+		digitalWrite(LED, LOW);
+		delay(50);
 	}
 	delay(1000);
 }
