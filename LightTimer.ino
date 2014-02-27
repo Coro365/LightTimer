@@ -23,6 +23,7 @@ void setup() {
 	Serial.begin(9600);
 	pinMode(LED, OUTPUT);
 	g_servo.attach(SERVOPIN);
+	digitalWrite(BUTTON,INPUT_PULLUP);  //内蔵プルダウン
 	Serial.print("setup OK!\n");
 }
 
@@ -75,8 +76,10 @@ int setTime(){
 	while(1){
 		int bottonStatus = digitalRead(BUTTON);
 		delay(50);
+        
+        Serial.print(bottonStatus);
 
-		if(lastButtonStatus == LOW && bottonStatus == HIGH){
+		if(lastButtonStatus == HIGH && bottonStatus == LOW){
 			buttonCount++;
 
 			digitalWrite(LED, HIGH); 
